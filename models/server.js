@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 class Server {
     constructor() {
         this.app = express();
-        this.port = process.env.PORT;
+        this.port = process.env.PORT || 3000;
         this.usersRoutePath = '/api/users';
         // middlewares
         // rutas de la aplicacion
