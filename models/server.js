@@ -6,6 +6,7 @@ class Server {
     constructor() {
         this.app = express();
         this.port = process.env.PORT;
+        this.authRoutePath = '/api/auth'
         this.usersRoutePath = '/api/users';
         // conectar a la base de datos
         this.conectarDB();
@@ -25,6 +26,7 @@ class Server {
         this.app.use(cors());
     }
     routes() {
+        this.app.use(this.authRoutePath, require('../routes/auth'))
         this.app.use(this.usersRoutePath, require('../routes/user'))
     }
     start() {
