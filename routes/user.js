@@ -17,6 +17,7 @@ router.post('/', [
     check('rol').custom(esRolValido),
     validarCampos
 ], usersPost);
+
 router.put('/:id',[
     check('id', 'No es un ID válido').isMongoId(),
     check('id').custom(esIdValido),
