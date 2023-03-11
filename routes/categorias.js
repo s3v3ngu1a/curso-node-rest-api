@@ -11,9 +11,38 @@ const router = Router();
 // actualizar - privado
 // borrar una categoria - cambiar el estado - solo usuario admin 
 
+// Obtener TODAS las categorias
 router.get('/',( req, res ) => {
     res.json({
         msg: 'Todo OK en el get a /categorias'
+    })
+});
+
+// Obtener UNA categoria en particular
+router.get('/:id',( req, res ) => {
+    res.json({
+        msg: 'Todo OK en el get a /categorias por id'
+    })
+});
+
+// Crear una NUEVA categoria
+router.post('/',( req, res ) => {
+    res.json({
+        msg: 'Todo OK en el post a /categorias'
+    })
+});
+
+// MODIFICAR una categoria existente
+router.put('/:id',( req, res ) => {
+    res.json({
+        msg: 'Todo OK en el put a /categorias'
+    })
+});
+
+// ELIMINAR de forma no persistente una categoria - ADMIN
+router.delete('/:id',( req, res ) => {
+    res.json({
+        msg: 'Todo OK en el delete a /categorias'
     })
 });
 
