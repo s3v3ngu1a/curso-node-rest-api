@@ -12,7 +12,6 @@ const router = Router();
 // borrar una categoria - cambiar el estado - solo usuario admin 
 
 router.get('/',( req, res ) => {
-    console.log('Todo ok el get a categorias');
     res.json({
         msg: 'Todo OK en el get a /categorias'
     })

@@ -1,5 +1,5 @@
 const { Schema, model } = require('mongoose');
-
+mongoose.set('strictQuery', true)
 const UsuarioSchema = Schema({
     nombre: {
         type: String,
