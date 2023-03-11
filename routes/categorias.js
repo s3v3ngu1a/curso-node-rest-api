@@ -2,6 +2,7 @@
 
 const { Router } = require('express');
 const { check } = require('express-validator');
+const { validarJWT, validarCampos } = require('../middlewares');
 const router = Router();
 
 // servicios a implementar:
@@ -25,8 +26,12 @@ router.get('/:id',( req, res ) => {
     })
 });
 
-// Crear una NUEVA categoria
-router.post('/',( req, res ) => {
+// Crear una NUEVA categoria - cualquiera que tenga un token valido
+router.post('/',[
+    validarJWT,
+    check('nombre', 'El nombre es obligatorio').notEmpty(),
+    validarCampos
+],( req, res ) => {
     res.json({
         msg: 'Todo OK en el post a /categorias'
     })
