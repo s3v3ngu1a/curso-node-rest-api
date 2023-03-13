@@ -4,6 +4,7 @@ const { Router } = require('express');
 const { check } = require('express-validator');
 const { crearCategoria } = require('../controllers/categorias');
 const { validarJWT, validarCampos } = require('../middlewares');
+const { existeCategoria } = require('../helpers/categorias-validators');
 const router = Router();
 
 // servicios a implementar:
@@ -23,7 +24,10 @@ router.get('/',( req, res ) => {
 // Obtener UNA categoria en particular
 // hay que hacer una validacion en los middleware para corroborar el id
 // existe categoria puede ir en los helpers
-router.get('/:id',[check.custom( existeCategoria )],( req, res ) => {
+router.get('/:id',[
+    check('id').custom( existeCategoria ), 
+    validarCampos
+],( req, res ) => {
     res.json({
         msg: 'Todo OK en el get a /categorias por id'
     })
