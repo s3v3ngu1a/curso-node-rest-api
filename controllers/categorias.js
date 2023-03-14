@@ -2,7 +2,31 @@ const { response } = require("express");
 const { Categoria } = require("../models");
 
 // obtenerCategorias - paginado - total - populate (que es?) (populate va a dar la información del usuario)
+const obtenerCategorias = async (req, res = response) => {
+    const {limite = 5, desde = 0} = req.query;
+    const query = {estado: true}
+    const [total, categorias] = await Promise.all([
+        Categoria.countDocuments(query),
+        Categoria.find(query)
+            .skip(Number(desde))
+            .limit(Number(limite))
+            .populate('usuario', 'nombre')
+    ]);
+    res.json({
+        total,
+        categorias
+    });
+  }
+
+
 // obtenerCategoria - se devuelve una sola categoria
+const obtenerUnaCategoria = async(req, res=response) => {
+    console.log('Obteniendo categoria')
+    const {id} = req.params;
+    const categoria = await Categoria.findById(id).populate('usuario', 'nombre');
+    res.json(categoria);
+}
+
 
 
 const crearCategoria = async(req, res = response) => {
@@ -26,6 +50,7 @@ const crearCategoria = async(req, res = response) => {
     });
 }
 
+
 // actualizar categoria - ***
 
 // borrar categoria - borrado no persistente
@@ -35,5 +60,7 @@ const crearCategoria = async(req, res = response) => {
 
 
 module.exports = {
-    crearCategoria
+    crearCategoria,
+    obtenerUnaCategoria,
+    obtenerCategorias
 }

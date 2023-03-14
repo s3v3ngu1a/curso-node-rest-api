@@ -2,7 +2,7 @@
 
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { crearCategoria } = require('../controllers/categorias');
+const { crearCategoria, obtenerUnaCategoria, obtenerCategorias } = require('../controllers/categorias');
 const { validarJWT, validarCampos } = require('../middlewares');
 const { existeCategoria } = require('../helpers/categorias-validators');
 const router = Router();
@@ -15,11 +15,7 @@ const router = Router();
 // borrar una categoria - cambiar el estado - solo usuario admin 
 
 // Obtener TODAS las categorias
-router.get('/',( req, res ) => {
-    res.json({
-        msg: 'Todo OK en el get a /categorias'
-    })
-});
+router.get('/', obtenerCategorias);
 
 // Obtener UNA categoria en particular
 // hay que hacer una validacion en los middleware para corroborar el id
@@ -27,11 +23,7 @@ router.get('/',( req, res ) => {
 router.get('/:id',[
     check('id').custom( existeCategoria ), 
     validarCampos
-],( req, res ) => {
-    res.json({
-        msg: 'Todo OK en el get a /categorias por id'
-    })
-});
+], obtenerUnaCategoria);
 
 // Crear una NUEVA categoria - cualquiera que tenga un token valido
 router.post('/',[
