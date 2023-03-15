@@ -35,6 +35,8 @@ router.post('/',[
 // MODIFICAR una categoria existente 
 router.put('/:id', [
     validarJWT,
+    check('id', 'No es un id válido').isMongoId(),
+    check('id').custom( existeCategoria ),
     check('nombre', 'El nombre es obligatorio').notEmpty(),
     validarCampos
 ], actualizarCategoria);

@@ -31,8 +31,8 @@ const obtenerUnaCategoria = async(req, res=response) => {
 const actualizarCategoria = async(req, res=response) => {
     console.log('Actualizando categoria')
     const { id } = req.params;
-    const { nombre } = req.body;
-    const categoria = await Categoria.findByIdAndUpdate(id, {nombre: nombre}, {new: true});
+    const { estado, usuario, ...data } = req.body;
+    const categoria = await Categoria.findByIdAndUpdate(id, data, {new: true});
     res.json({update: 'OK',
             categoria});
 }
