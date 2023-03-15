@@ -27,7 +27,15 @@ const obtenerUnaCategoria = async(req, res=response) => {
     res.json(categoria);
 }
 
-
+// actualizar categoria - Hecho
+const actualizarCategoria = async(req, res=response) => {
+    console.log('Actualizando categoria')
+    const { id } = req.params;
+    const { nombre } = req.body;
+    const categoria = await Categoria.findByIdAndUpdate(id, {nombre: nombre}, {new: true});
+    res.json({update: 'OK',
+            categoria});
+}
 
 const crearCategoria = async(req, res = response) => {
     const nombre = req.body.nombre.toUpperCase();
@@ -50,17 +58,19 @@ const crearCategoria = async(req, res = response) => {
     });
 }
 
-
-// actualizar categoria - ***
-
 // borrar categoria - borrado no persistente
 
-
-
+const borrarCategoria = async (req, res = response) => {
+    const { id } = req.params;
+    const categoria = await Categoria.findByIdAndUpdate(id, {estado: false}, {new: true});
+    res.json(categoria);
+}
 
 
 module.exports = {
     crearCategoria,
     obtenerUnaCategoria,
-    obtenerCategorias
+    obtenerCategorias,
+    actualizarCategoria,
+    borrarCategoria
 }
