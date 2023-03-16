@@ -37,6 +37,7 @@ const actualizarProducto = async(req, res=response) => {
 }
 
 const crearProducto = async(req, res = response) => {
+    // utilizar desestructuracion para contemplar que manden más campos permitidos
     const nombre = req.body.nombre.toUpperCase();
     const categoriaDB = await Producto.findOne({ nombre });
     if ( categoriaDB ) {
