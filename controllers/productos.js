@@ -1,4 +1,3 @@
-// Implementar CRUD para producto
 const { response } = require("express");
 const { Producto } = require("../models");
 
@@ -21,22 +20,20 @@ const obtenerProductos = async (req, res = response) => {
   }
 
 
-// obtenerCategoria - se devuelve una sola categoria
 const obtenerUnProducto = async(req, res=response) => {
-    console.log('Obteniendo categoria')
     const {id} = req.params;
-    const categoria = await Producto.findById(id).populate('usuario', 'nombre');
+    const categoria = await Producto.findById(id)
+    .populate('usuario categoria', 'nombre nombre');
     res.json(categoria);
 }
 
-// actualizar categoria - Hecho
 const actualizarProducto = async(req, res=response) => {
-    console.log('Actualizando categoria')
     const { id } = req.params;
     const { estado, usuario, ...data } = req.body;
-    const categoria = await Producto.findByIdAndUpdate(id, data, {new: true});
+    const producto = await Producto.findByIdAndUpdate(id, data, {new: true})
+    .populate('categoria usuario', 'nombre nombre');
     res.json({update: 'OK',
-            categoria});
+            producto});
 }
 
 const crearProducto = async(req, res = response) => {
@@ -61,12 +58,14 @@ const crearProducto = async(req, res = response) => {
     });
 }
 
-// borrar categoria - borrado no persistente
 
 const borrarProducto = async (req, res = response) => {
     const { id } = req.params;
-    const categoria = await Producto.findByIdAndUpdate(id, {estado: false}, {new: true});
-    res.json(categoria);
+    const producto = await Producto.findByIdAndUpdate(id, {estado: false}, {new: true});
+    res.json({
+        msg: 'Producto eliminado',
+        producto
+    });
 }
 
 

@@ -21,7 +21,6 @@ const obtenerCategorias = async (req, res = response) => {
 
 // obtenerCategoria - se devuelve una sola categoria
 const obtenerUnaCategoria = async(req, res=response) => {
-    console.log('Obteniendo categoria')
     const {id} = req.params;
     const categoria = await Categoria.findById(id).populate('usuario', 'nombre');
     res.json(categoria);
@@ -29,7 +28,6 @@ const obtenerUnaCategoria = async(req, res=response) => {
 
 // actualizar categoria - Hecho
 const actualizarCategoria = async(req, res=response) => {
-    console.log('Actualizando categoria')
     const { id } = req.params;
     const { estado, usuario, ...data } = req.body;
     const categoria = await Categoria.findByIdAndUpdate(id, data, {new: true});

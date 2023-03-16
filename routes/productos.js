@@ -8,7 +8,7 @@ const {
     borrarProducto 
     } = require('../controllers/productos');
 const { validarJWT, validarCampos, tieneRole } = require('../middlewares');
-const { existeCategoria } = require('../helpers/categorias-validators');
+const { existeProducto } = require('../helpers/productos-validators');
 const router = Router();
 
 
@@ -27,32 +27,28 @@ router.post('/',[
 router.get('/', obtenerProductos);
 
 // OBTENER INDIVIDUAL
-router.get('/:id',(request, response) => {
-    response.status(200).json({
-        id: request.params.id,
-        msg: 'llego al get de producto ok'
-    })
-})
-// MODIFICAR
 router.get('/:id',[
-    check('id').custom( existeCategoria ), 
+    check('id').custom( existeProducto ), 
     validarCampos
-], obtenerUnaCategoria);
-// MODIFICAR
+], obtenerUnProducto);
+
+
 // ACTUALIZAR
-router.put('/:id',(request, response) => {
-    response.status(200).json({
-        id: request.params.id,
-        msg: 'llego al put de producto ok'
-    })
-})
+router.put('/:id', [
+    validarJWT,
+    check('id', 'No es un id válido').isMongoId(),
+    check('id').custom( existeProducto ),
+    check('nombre', 'El nombre es obligatorio').notEmpty(),
+    validarCampos
+], actualizarProducto);
 
 // BORRAR
-router.delete('/:id',(request, response) => {
-    response.status(200).json({
-        id: request.params.id,
-        msg: 'llego al delete de producto ok'
-    })
-})
+router.delete('/:id',[
+    validarJWT,
+    check('id', 'No es un id válido').isMongoId(),
+    check('id').custom( existeProducto ),
+    tieneRole('ADMIN_ROLE'),
+    validarCampos
+], borrarProducto);
 
 module.exports = router;
